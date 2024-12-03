@@ -14,3 +14,4 @@ on:
 jobs:
   ci:
     uses: zhn-test/public-actions/.github/workflows/checkpatch.yml@main
+    secrets: inherit
