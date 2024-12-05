@@ -12,5 +12,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ci:
-    uses: ${{ github.repository_owner }}/public-actions/.github/workflows/checkpatch.yml@main
+  checkpatch:
+    uses: zhn-test/public-actions/.github/workflows/checkpatch.yml@main
+    secrets: inherit
