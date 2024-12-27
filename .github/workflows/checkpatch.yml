@@ -11,9 +11,20 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  pre_job:
+   runs-on: ubuntu-latest
+   outputs:
+     should_skip: ${{ steps.skip_check.outputs.should_skip }}
+   steps:
+     - id: skip_check
+       uses: fkirc/skip-duplicate-actions@v5
+       with:
+         skip_after_successful_duplicate: 'true'
+         
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
   checkpatch:
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     uses: zhn-test/public-actions/.github/workflows/checkpatch.yml@main
     secrets: inherit
