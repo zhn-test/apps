@@ -14,16 +14,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  skip-duplicate-check:
+  checkpatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for duplicates
+      - name: Skip duplicate actions
         uses: fkirc/skip-duplicate-actions@v5
         with:
           key: ${{ github.event.pull_request.head.sha }}
-          skip-after-success: true
-          fail-on-skip: true
-
-  checkpatch:
-    uses: zhn-test/public-actions/.github/workflows/checkpatch.yml@main
-    secrets: inherit
+          skip_after_successful_duplicate: true
+  
+      # Step 3: Run the actual checkpatch workflow (only if not skipped)
+      - name: Run checkpatch
+        uses: test/public-actions/.github/workflows/checkpatch.yml@main
